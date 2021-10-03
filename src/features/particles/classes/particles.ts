@@ -17,8 +17,8 @@ export interface ParticlesStyle {
 export class Particles {
   static defaultStyles = {
     background: 'radial-gradient(#1c1425, #07060b)',
-    particleColor: '#bb95e1',
-    strokeStyle: '#bb95e1a8',
+    particleColor: '#bb95e158',
+    strokeStyle: '#bb95e119',
     position: 'absolute',
     top: '0',
     left: '0',
@@ -27,10 +27,16 @@ export class Particles {
   };
 
   styles: ParticlesStyle = Particles.defaultStyles;
-  private canvas: HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D;
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
   private mouse: ICircle;
   private particlesArray: Particle[];
+  private currentLine = 0;
+  private particlesText: {
+    [text: string]: {
+      particles: Particle[];
+    };
+  } = {};
   private resizeObserver: ResizeObserver;
   container = document.body;
 
@@ -112,13 +118,13 @@ export class Particles {
    */
   init() {
     this.particlesArray = [];
-    const numberOfParticles = (this.canvas.height * this.canvas.width) / 7000;
+    const numberOfParticles = (this.canvas.height * this.canvas.width) / 9000;
     for (let i = 0; i < numberOfParticles; i++) {
       const size = Math.random() * 5 + 1;
       const x = Math.random() * (innerWidth - size * 2 - size * 2 + size * 2);
       const y = Math.random() * (innerHeight - size * 2 - size * 2 + size * 2);
-      const directionX = Math.random() * 1 - 0.5;
-      const directionY = Math.random() * 1 - 0.5;
+      const directionX = Math.random() * 0.5 - 0.25;
+      const directionY = Math.random() * 0.5 - 0.25;
       const color = this.styles.particleColor;
       const particle = new Particle(
         x,
@@ -155,19 +161,78 @@ export class Particles {
 
       particles = particles.concat(mouseParticle);
     }
-    for (let i = 0; i < this.particlesArray.length; i++) {
-      particles[i].update(this.mouse);
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
     }
+
+    const texts = Object.keys(this.particlesText);
+    if (texts?.length) {
+      texts.forEach((text) => {
+        for (const p of this.particlesText[text].particles) {
+          p.updateStatic(this.mouse);
+        }
+      });
+    }
+
     this.connect();
+    this.connectText();
   }
 
   connect() {
-    const points = this.particlesArray as Point2D[]; //.concat(this.mouse);
+    const points = (this.particlesArray as Point2D[]).concat(this.mouse);
+    const maxDistance = (this.canvas.width / 7) * (this.canvas.height / 7);
+    this._connect(points, maxDistance, this.styles.strokeStyle);
+  }
+  connectText() {
+    const texts = Object.keys(this.particlesText);
+    if (texts?.length) {
+      texts.forEach((text) =>
+        this._connect(this.particlesText[text].particles, 300, '#ffffff80')
+      );
+    }
+  }
+
+  particleText(text: string) {
+    const key = `${this.currentLine}:${text}`;
+    const canvas = document.createElement('canvas');
+    canvas.width = this.canvas.width;
+    canvas.height = this.canvas.height;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '30px Verdana';
+    const textWidth = ctx.measureText(text).width;
+    const x = canvas.width / 2 - textWidth / 2;
+    ctx.fillText(text, 0, 22);
+    const data = ctx.getImageData(0, 0, textWidth, 100);
+
+    this.particlesText[key] = {
+      particles: [],
+    };
+    for (let i = 0; i < data.width; i++) {
+      for (let j = 0; j < data.height; j++) {
+        if (data.data[j * 4 * data.width + i * 4 + 3] > 128) {
+          const particle = new Particle(
+            i * 8 + this.canvas.width / 2 - (textWidth * 8) / 2,
+            (j + this.currentLine * 22) * 8,
+            0,
+            0,
+            2,
+            'white',
+            this.canvas,
+            this.ctx
+          );
+          this.particlesText[key].particles.push(particle);
+        }
+      }
+    }
+    this.currentLine++;
+  }
+
+  private _connect(points: Point2D[], maxDistance: number, color: string) {
     for (let i = 0; i < points.length; i++) {
       for (let j = i + 1; j < points.length; j++) {
-        const maxDistance = (this.canvas.width / 7) * (this.canvas.height / 7);
         if (distance(points[i], points[j]) < maxDistance) {
-          this.ctx.strokeStyle = this.styles.strokeStyle;
+          this.ctx.strokeStyle = color;
           this.ctx.lineWidth = 1;
           this.ctx.beginPath();
           this.ctx.moveTo(points[i].x, points[i].y);

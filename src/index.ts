@@ -1,3 +1,7 @@
 import { createParticles } from './features/particles/index';
 import './scss/styles.scss';
-createParticles(document.body, { position: 'fixed' });
+
+const particles = createParticles();
+particles.particleText('Hi,');
+particles.particleText("I'm Reynier");
+// particles.particleText('web developer');

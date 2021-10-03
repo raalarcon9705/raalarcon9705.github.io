@@ -1,3 +1,6 @@
+@import './dispositions';
+@import './typography';
+
 * {
   margin: 0;
   padding: 0;
@@ -6,4 +9,34 @@
 
 body > canvas {
   z-index: -1;
+}
+
+:root {
+  background: radial-gradient(#1c1425, #07060b);
+}
+
+:root,
+html,
+body {
+  height: 100%;
+}
+
+.letter {
+  color: #fff;
+  display: inline-block;
+  transition: color 300ms;
+
+  &:empty {
+    width: 10px;
+  }
+
+  &:hover {
+    color: #bb95e1;
+  }
+}
+
+.hello {
+  font-size: 5rem;
+  line-height: 6rem;
+  // font-weight: 400;
 }
