@@ -29,8 +29,8 @@ export class Particles {
   styles: ParticlesStyle = Particles.defaultStyles;
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
-  private mouse: ICircle;
-  private particlesArray: Particle[];
+  protected mouse: ICircle;
+  protected particlesArray: Particle[];
   private currentLine = 0;
   private particlesText: {
     [text: string]: {
@@ -40,7 +40,11 @@ export class Particles {
   private resizeObserver: ResizeObserver;
   container = document.body;
 
-  constructor(container?: HTMLElement, styles?: ParticlesStyle) {
+  constructor(
+    container?: HTMLElement,
+    styles?: ParticlesStyle,
+    ...props: any[]
+  ) {
     if (container) {
       this.container = container;
     }
@@ -50,12 +54,15 @@ export class Particles {
       ...styles,
     };
 
+    this.initProps(...props);
     this.build();
     this.init();
     this.animate();
   }
 
-  private setDimensions() {
+  protected initProps(...args: any[]) {}
+
+  protected setDimensions() {
     if (this.container.isEqualNode(document.body)) {
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.innerHeight;
@@ -66,7 +73,7 @@ export class Particles {
     this.mouse.radius = ((this.canvas.height / 80) * this.canvas.width) / 80;
   }
 
-  private applyStyle() {
+  protected applyStyle() {
     this.canvas.style.background = this.styles.background;
     this.canvas.style.position = this.styles.position;
     this.canvas.style.top = this.styles.top;
@@ -75,7 +82,7 @@ export class Particles {
     this.canvas.style.height = this.styles.height;
   }
 
-  private build() {
+  protected build() {
     this.canvas = document.createElement('canvas');
     this.ctx = this.canvas.getContext('2d');
 
@@ -88,7 +95,7 @@ export class Particles {
     this.setDimensions();
     this.applyStyle();
 
-    this.container.prepend(this.canvas);
+    this.container.append(this.canvas);
 
     this.container.addEventListener('mousemove', (ev) => {
       this.mouse.x = ev.x;
@@ -116,9 +123,9 @@ export class Particles {
   /**
    * @description Create particle array
    */
-  init() {
+  protected init() {
     this.particlesArray = [];
-    const numberOfParticles = (this.canvas.height * this.canvas.width) / 9000;
+    const numberOfParticles = (this.canvas.height * this.canvas.width) / 15000;
     for (let i = 0; i < numberOfParticles; i++) {
       const size = Math.random() * 5 + 1;
       const x = Math.random() * (innerWidth - size * 2 - size * 2 + size * 2);
@@ -143,7 +150,7 @@ export class Particles {
   /**
    * @description Animation loop
    */
-  animate() {
+  protected animate() {
     requestAnimationFrame(this.animate.bind(this));
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     let particles = this.particlesArray;
@@ -165,70 +172,16 @@ export class Particles {
       particles[i].update();
     }
 
-    const texts = Object.keys(this.particlesText);
-    if (texts?.length) {
-      texts.forEach((text) => {
-        for (const p of this.particlesText[text].particles) {
-          p.updateStatic(this.mouse);
-        }
-      });
-    }
-
     this.connect();
-    this.connectText();
   }
 
-  connect() {
+  protected connect() {
     const points = (this.particlesArray as Point2D[]).concat(this.mouse);
     const maxDistance = (this.canvas.width / 7) * (this.canvas.height / 7);
     this._connect(points, maxDistance, this.styles.strokeStyle);
   }
-  connectText() {
-    const texts = Object.keys(this.particlesText);
-    if (texts?.length) {
-      texts.forEach((text) =>
-        this._connect(this.particlesText[text].particles, 300, '#ffffff80')
-      );
-    }
-  }
 
-  particleText(text: string) {
-    const key = `${this.currentLine}:${text}`;
-    const canvas = document.createElement('canvas');
-    canvas.width = this.canvas.width;
-    canvas.height = this.canvas.height;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '30px Verdana';
-    const textWidth = ctx.measureText(text).width;
-    const x = canvas.width / 2 - textWidth / 2;
-    ctx.fillText(text, 0, 22);
-    const data = ctx.getImageData(0, 0, textWidth, 100);
-
-    this.particlesText[key] = {
-      particles: [],
-    };
-    for (let i = 0; i < data.width; i++) {
-      for (let j = 0; j < data.height; j++) {
-        if (data.data[j * 4 * data.width + i * 4 + 3] > 128) {
-          const particle = new Particle(
-            i * 8 + this.canvas.width / 2 - (textWidth * 8) / 2,
-            (j + this.currentLine * 22) * 8,
-            0,
-            0,
-            2,
-            'white',
-            this.canvas,
-            this.ctx
-          );
-          this.particlesText[key].particles.push(particle);
-        }
-      }
-    }
-    this.currentLine++;
-  }
-
-  private _connect(points: Point2D[], maxDistance: number, color: string) {
+  protected _connect(points: Point2D[], maxDistance: number, color: string) {
     for (let i = 0; i < points.length; i++) {
       for (let j = i + 1; j < points.length; j++) {
         if (distance(points[i], points[j]) < maxDistance) {
