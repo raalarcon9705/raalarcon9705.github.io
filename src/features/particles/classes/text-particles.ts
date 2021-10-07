@@ -36,7 +36,7 @@ export class TextParticles extends Particles {
     const textWidth = ctx.measureText(this.text).width;
     const textHeight = +this.fontSize.match(/^\d+/)[0] * 1.286;
     ctx.fillText(this.text, 0, 0);
-    document.body.append(canvas);
+    // document.body.append(canvas);
     const data = ctx.getImageData(0, 0, 100, 100);
     this.particlesArray = [];
     for (let i = 0; i < data.width; i++) {
@@ -56,8 +56,6 @@ export class TextParticles extends Particles {
         }
       }
     }
-
-    console.log(this.particlesArray);
   }
 
   connect() {

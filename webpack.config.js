@@ -9,19 +9,44 @@ const isProduction = process.env.NODE_ENV == 'production';
 
 const stylesHandler = MiniCssExtractPlugin.loader;
 
+const pages = ['index', 'game'];
+
 const config = {
-  entry: './src/index.ts',
+  entry: pages.reduce(
+    (config, page) => {
+      config[page] = `./src/pages/${page}/${page}.ts`;
+      return config;
+    },
+    {
+      vendor: `./src/vendor.ts`,
+    }
+  ),
   output: {
     path: path.resolve(__dirname, 'docs'),
+    filename: '[name].js',
   },
   devServer: {
     open: true,
     host: 'localhost',
   },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: 'index.html',
-    }),
+    // new HtmlWebpackPlugin({
+    //   template: 'index.html',
+    // }),
+    ...pages.map(
+      (page) =>
+        new HtmlWebpackPlugin({
+          inject: true,
+          template: `./src/pages/${page}/${page}.html`,
+          filename: `${page}.html`,
+          chunks: ['vendor', page],
+        })
+    ),
 
     new MiniCssExtractPlugin(),
 

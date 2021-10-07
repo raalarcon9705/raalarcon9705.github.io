@@ -1,6 +1,7 @@
 export function splitLettersSimple(el: Node, letterClass = 'letter') {
   if (el.nodeType === Node.TEXT_NODE) {
     const html = el.textContent
+      .replace(/\s+/g, ' ')
       .split('')
       .reduce(
         (content, letter) =>
@@ -15,16 +16,18 @@ export function splitLettersSimple(el: Node, letterClass = 'letter') {
     span.innerHTML = html;
     el.parentNode.replaceChild(span, el);
   } else {
-    el.childNodes.forEach((child) => splitLettersSimple(child));
-    const children = Array.from(el.childNodes)
-      .map((child: Element) =>
-        child.className === 'temp' ? Array.from(child.childNodes) : [child]
+    el.childNodes.forEach((child) => splitLettersSimple(child as any));
+    const children = Array.from<HTMLElement>(el.childNodes as any)
+      .map((child) =>
+        child.className === 'temp'
+          ? Array.from<HTMLElement>(child.childNodes as any)
+          : [child]
       )
       .reduce((arr, child) => arr.concat(child), []);
 
     children
-      .filter((child: HTMLElement) => child.className === 'letter')
-      .forEach((child: HTMLElement) => {
+      .filter((child) => child.className === 'letter')
+      .forEach((child: any) => {
         child.addEventListener('mouseenter', () =>
           child.classList.add('animate__animated', 'animate__bounce')
         );
@@ -33,7 +36,10 @@ export function splitLettersSimple(el: Node, letterClass = 'letter') {
           child.classList.remove('animate__animated', 'animate__bounce');
         });
       });
-    (el as ParentNode).replaceChildren(...children);
+    const p = el as ParentNode;
+    if (p.replaceChildren) {
+      p.replaceChildren(...children);
+    }
   }
 }
 
