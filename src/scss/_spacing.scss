@@ -33,4 +33,28 @@ $spacer_map: (
   .mr-#{$i} {
     margin-right: $spacer * map-get($spacer_map, $i);
   }
+
+  .p-#{$i},
+  .py-#{$i},
+  .pt-#{$i} {
+    padding-top: $spacer * map-get($spacer_map, $i);
+  }
+
+  .p-#{$i},
+  .py-#{$i},
+  .pb-#{$i} {
+    padding-bottom: $spacer * map-get($spacer_map, $i);
+  }
+
+  .p-#{$i},
+  .px-#{$i},
+  .pl-#{$i} {
+    padding-left: $spacer * map-get($spacer_map, $i);
+  }
+
+  .p-#{$i},
+  .px-#{$i},
+  .pr-#{$i} {
+    padding-right: $spacer * map-get($spacer_map, $i);
+  }
 }
