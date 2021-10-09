@@ -1,3 +1,4 @@
+import { ImgParticles } from './classes/img-particles';
 import { Particles, ParticlesStyle } from './classes/particles';
 import { TextParticles } from './classes/text-particles';
 
@@ -16,4 +17,12 @@ export function createTextParticles(
   container?: HTMLElement
 ) {
   return new TextParticles(text, color, fontFamily, fontSize, container);
+}
+
+export function createImageParticles(
+  src: string,
+  container?: HTMLElement,
+  styles?: ParticlesStyle
+) {
+  return new ImgParticles(src, container);
 }

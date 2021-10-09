@@ -1,3 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+$align_text: center, left, right, initial, inherit, justify, unset;
+
 body {
   font-family: 'Open Sans', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Fredoka One', cursive;
+}
+
+@each $align in $align_text {
+  .text-align-#{$align} {
+    text-align: $align;
+  }
 }

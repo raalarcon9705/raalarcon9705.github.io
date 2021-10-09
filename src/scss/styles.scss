@@ -1,5 +1,8 @@
+@import './colors';
 @import './dispositions';
 @import './typography';
+@import './buttons';
+@import './spacing';
 
 * {
   margin: 0;
@@ -12,7 +15,7 @@ body > canvas {
 }
 
 :root {
-  background: radial-gradient(#1c1425, #07060b);
+  background: radial-gradient($backgroundColor, #07060b);
 }
 
 :root,
@@ -31,12 +34,21 @@ body {
   }
 
   &:hover {
-    color: #bb95e1;
+    color: $primaryColor;
   }
 }
 
-.hello {
-  font-size: 5rem;
-  line-height: 6rem;
-  // font-weight: 400;
+.brand {
+  color: $primaryColor !important;
+  font-weight: bold;
+  text-shadow: -1px 1px 0 $accentColor, -2px 2px 0 $accentColor,
+    -3px 3px 0 $accentColor, -4px 4px 0 $accentColor, -5px 5px 0 $accentColor,
+    -6px 6px 1px rgba(0, 0, 0, 0.1), -4px 0 5px rgba(0, 0, 0, 0.1),
+    -4px 1px 3px rgba(0, 0, 0, 0.3), -4px 3px 5px rgba(0, 0, 0, 0.2),
+    -4px 5px 10px rgba(0, 0, 0, 0.25), -4px 10px 10px rgba(0, 0, 0, 0.2),
+    -4px 20px 20px rgba(0, 0, 0, 0.15);
+
+  .letter {
+    color: inherit;
+  }
 }

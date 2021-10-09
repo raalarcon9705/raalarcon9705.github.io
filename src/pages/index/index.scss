@@ -1,0 +1,14 @@
+.hello {
+  font-size: 4rem;
+  // line-height: 6rem;
+  user-select: none;
+  // font-weight: 400;
+}
+
+section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

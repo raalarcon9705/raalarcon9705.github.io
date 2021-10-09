@@ -1,3 +1,5 @@
+import { getRandomInt } from './functions';
+
 export function splitLettersSimple(el: Node, letterClass = 'letter') {
   if (el.nodeType === Node.TEXT_NODE) {
     const html = el.textContent
@@ -26,14 +28,24 @@ export function splitLettersSimple(el: Node, letterClass = 'letter') {
       .reduce((arr, child) => arr.concat(child), []);
 
     children
-      .filter((child) => child.className === 'letter')
-      .forEach((child: any) => {
+      .filter((child) => child.classList?.contains('letter'))
+      .forEach((child) => {
+        const duration = getRandomInt(400, 2000);
+        child.classList.add('animate__animated', 'animate__bounceIn');
+        child.style.setProperty('--animate-duration', `${duration}ms`);
+
         child.addEventListener('mouseenter', () =>
-          child.classList.add('animate__animated', 'animate__bounce')
+          child.classList.add('animate__animated', 'animate__headShake')
         );
 
         child.addEventListener('animationend', () => {
-          child.classList.remove('animate__animated', 'animate__bounce');
+          child.style.removeProperty('--animate-duration');
+
+          child.classList.remove(
+            'animate__animated',
+            'animate__headShake',
+            'animate__bounceIn'
+          );
         });
       });
     const p = el as ParentNode;

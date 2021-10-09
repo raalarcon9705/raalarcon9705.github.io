@@ -4,12 +4,13 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV == 'production';
 
 const stylesHandler = MiniCssExtractPlugin.loader;
 
-const pages = ['index', 'game'];
+const pages = ['index'];
 
 const config = {
   entry: pages.reduce(
@@ -49,6 +50,9 @@ const config = {
     ),
 
     new MiniCssExtractPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [{ from: 'static' }],
+    }),
 
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/

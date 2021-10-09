@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { distance } from '../functions/math';
 import { ICircle } from '../interfaces/circle';
 import { Point2D } from '../interfaces/point-2d';
@@ -16,9 +17,9 @@ export interface ParticlesStyle {
 
 export class Particles {
   static defaultStyles = {
-    background: 'radial-gradient(#1c1425, #07060b)',
-    particleColor: '#bb95e158',
-    strokeStyle: '#bb95e119',
+    background: 'radial-gradient(#0e073e, #07060b)',
+    particleColor: '#59099558',
+    strokeStyle: '#59099519',
     position: 'absolute',
     top: '0',
     left: '0',
@@ -31,6 +32,7 @@ export class Particles {
   ctx: CanvasRenderingContext2D;
   protected mouse: ICircle;
   protected particlesArray: Particle[];
+  protected tempParticles: Particle[] = [];
   private currentLine = 0;
   private particlesText: {
     [text: string]: {
@@ -145,6 +147,36 @@ export class Particles {
       );
       this.particlesArray.push(particle);
     }
+
+    // mouse event
+    this.container.addEventListener(
+      'mousemove',
+      _.throttle(() => {
+        let p = 5;
+        while (p--) {
+          const angle = Math.random() * Math.PI * 2;
+          const radius = Math.random() * this.mouse.radius * this.mouse.radius;
+          const x = Math.sqrt(radius) * Math.cos(angle) + this.mouse.x;
+          const y = Math.sqrt(radius) * Math.sin(angle) + this.mouse.y;
+          let particle = new Particle(
+            x,
+            y,
+            0,
+            0,
+            2,
+            this.styles.particleColor,
+            this.canvas,
+            this.ctx
+          );
+          this.tempParticles.push(particle);
+          setTimeout(() => {
+            this.tempParticles = this.tempParticles.filter(
+              (p) => p.x !== particle.x && p.y !== particle.y
+            );
+          }, 1000);
+        }
+      }, 100)
+    );
   }
 
   /**
@@ -176,7 +208,9 @@ export class Particles {
   }
 
   protected connect() {
-    const points = (this.particlesArray as Point2D[]).concat(this.mouse);
+    const points = (this.particlesArray as Point2D[])
+      .concat(this.mouse)
+      .concat(this.tempParticles);
     const maxDistance = (this.canvas.width / 7) * (this.canvas.height / 7);
     this._connect(points, maxDistance, this.styles.strokeStyle);
   }

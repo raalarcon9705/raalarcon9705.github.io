@@ -44,7 +44,7 @@ export class TextParticles extends Particles {
         if (data.data[j * 4 * data.width + i * 4 + 3] > 128) {
           const particle = new Particle(
             i * 8 + this.canvas.width / 2 - (textWidth * 8) / 2,
-            j * 8,
+            j * 8 + 50,
             0,
             0,
             2,
