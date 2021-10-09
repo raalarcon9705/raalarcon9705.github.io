@@ -2,6 +2,8 @@ import { splitLetters } from '../../utils/dom';
 import './index.scss';
 splitLetters();
 
+const api = `https://raalarcon-portfolio-bot.herokuapp.com/send-message`;
+
 const initView = () => {
   const btnContactToMe = document.getElementById('btnContactToMe');
   const sectionContactToMe = document.getElementById('contactToMe');
@@ -21,7 +23,11 @@ const initView = () => {
       }
       return form;
     }, {});
-    console.log(data);
+    fetch(api, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' },
+    });
   });
 };
 
