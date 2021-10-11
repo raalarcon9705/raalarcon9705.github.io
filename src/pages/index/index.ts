@@ -6,6 +6,7 @@ const api = `https://raalarcon-portfolio-bot.herokuapp.com/send-message`;
 
 const initView = () => {
   const btnContactToMe = document.getElementById('btnContactToMe');
+  const btnSubmit = document.getElementById('btnSubmit');
   const sectionContactToMe = document.getElementById('contactToMe');
   const contactForm = document.getElementById('contactForm') as HTMLFormElement;
 
@@ -28,6 +29,17 @@ const initView = () => {
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' },
     });
+  });
+
+  contactForm.addEventListener('input', () => {
+    const isValid = (
+      Array.from(contactForm.elements) as HTMLInputElement[]
+    ).reduce((valid, input) => valid && input.validity.valid, true);
+    if (isValid) {
+      btnSubmit.removeAttribute('disabled');
+    } else {
+      btnSubmit.setAttribute('disabled', 'true');
+    }
   });
 };
 

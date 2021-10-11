@@ -10,7 +10,7 @@
     <title>My portfolio</title>
   </head>
   <body>
-    <div class="px-3">
+    <div class="container">
       <section class="text-align-center">
         <h1 class="split-letters hello">
           <span class="d-block">Hi,</span>
@@ -27,7 +27,7 @@
           <a target="_blank" href="https://www.messenger.com/t/raalarcon.9705" class="icon lg"><img src="/assets/images/messenger.png" alt=""></a>
           <a target="_blank" href="https://www.linkedin.com/in/raalarcon/" class="icon lg"><img src="/assets/images/linkedin.png" alt=""></a>
         </div>
-        <form class="form w-100 mt-3 d-flex" id="contactForm">
+        <form class="form w-100 mt-3 d-flex" id="contactForm" autocomplete="off">
           <div class="expand px-1 py-2">
             <label class="input">
               <input type="text" name="name" id="nameInput" placeholder="Your Name" required class="input">
@@ -47,13 +47,13 @@
 
           <div class="w-100 px-1 py-2">
             <label class="input">
-              <textarea name="content" id="contentInput" placeholder="Write content" rows="4"></textarea>
+              <textarea required name="content" id="contentInput" placeholder="Write content" rows="4"></textarea>
             </label>
           </div>
 
           <div class="w-100 px-1 py-2">
             <div class="text-align-right">
-              <button class="btn">Send message</button>
+              <button class="btn" id="btnSubmit" disabled>Send message</button>
             </div>
           </div>
         </form>
