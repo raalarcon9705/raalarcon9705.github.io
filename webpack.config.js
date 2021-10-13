@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
 const path = require('path');
@@ -10,7 +12,7 @@ const isProduction = process.env.NODE_ENV == 'production';
 
 const stylesHandler = MiniCssExtractPlugin.loader;
 
-const pages = ['index'];
+const pages = ['index', 'works'];
 
 const config = {
   entry: pages.reduce(
@@ -19,7 +21,7 @@ const config = {
       return config;
     },
     {
-      vendor: `./src/vendor.ts`,
+      vendor: './src/vendor.ts',
     }
   ),
   output: {

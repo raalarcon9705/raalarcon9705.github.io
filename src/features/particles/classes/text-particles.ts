@@ -39,8 +39,8 @@ export class TextParticles extends Particles {
     // document.body.append(canvas);
     const data = ctx.getImageData(0, 0, 100, 100);
     this.particlesArray = [];
-    for (let i = 0; i < data.width; i++) {
-      for (let j = 0; j < data.height; j++) {
+    for (let i = 0; i < data.width; i+= Math.round(canvas.width/128)) {
+      for (let j = 0; j < data.height; j+=Math.round(canvas.width/128)) {
         if (data.data[j * 4 * data.width + i * 4 + 3] > 128) {
           const particle = new Particle(
             i * 8 + this.canvas.width / 2 - (textWidth * 8) / 2,

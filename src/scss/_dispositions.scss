@@ -11,6 +11,14 @@
 }
 .d-flex {
   display: flex;
+
+  &.column {
+    flex-direction: column;
+  }
+
+  &.wrap {
+    flex-wrap: wrap;
+  }
 }
 .d-inline-block {
   display: inline-block;

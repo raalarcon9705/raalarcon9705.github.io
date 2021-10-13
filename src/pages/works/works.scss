@@ -1,0 +1,39 @@
+.word-card {
+  position: relative;
+  iphone-markup,
+  ipad-markup {
+    position: absolute;
+  }
+
+  imac-markup {
+    width: 100%;
+  }
+
+  iphone-markup {
+    width: 15%;
+    z-index: 2;
+    bottom: 0;
+    left: 5px;
+  }
+
+  ipad-markup {
+    width: 30%;
+    bottom: 0;
+    z-index: 4;
+    right: 5px;
+
+    &[data-landscape='true'] {
+      right: calc(30% + 20px);
+      width: 40%;
+    }
+  }
+}
+
+@media (max-width: 750px) {
+  .description {
+    width: 100%;
+    flex: unset !important;
+    order: 2;
+    margin-top: 22px;
+  }
+}

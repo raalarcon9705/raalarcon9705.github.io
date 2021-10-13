@@ -5,6 +5,7 @@ $align_text: center, left, right, initial, inherit, justify, unset;
 
 body {
   font-family: 'Open Sans', sans-serif;
+  color: #fff;
 }
 
 h1,
@@ -25,4 +26,12 @@ h6 {
 a {
   text-decoration: none;
   color: $accentColor;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.open-sans {
+  font-family: 'Open Sans', sans-serif;
 }

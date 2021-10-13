@@ -1,6 +1,7 @@
 .hello {
   font-size: 4.8rem;
   user-select: none;
+  color: transparent;
 
   @media (max-width: 450px) {
     font-size: 2.5rem !important;
@@ -17,4 +18,24 @@ section {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+// body {
+//   overflow: hidden;
+// }
+
+.slide-sections {
+  transition: transform 300ms;
+}
+
+.form {
+  position: relative;
+
+  .response-icon {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
 }

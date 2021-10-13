@@ -8,18 +8,33 @@
     <meta name="title" content="My portfolio" />
     <meta name="image" content="/assets/images/google-profile.jpg" />
     <title>My portfolio</title>
+    <!-- <script src="https://cdn.boomcdn.com/libs/wow-js/1.3.0/wow.min.js"></script> -->
   </head>
   <body>
-    <div class="container">
+    <div class="container" id="slideSections">
       <section class="text-align-center">
         <h1 class="split-letters hello">
           <span class="d-block">Hi,</span>
           <span class="d-block">I'm <span class="brand animate__animated animate__bounceIn d-inline-block">R</span>eynier,</span>
           <span class="d-block">web developer</span>
         </h1>
+        <h2 class="my-4 text-white open-sans wow animate__bounceIn">I help designers, entrepreneurs and companies turn their ideas into reality</h2>
+        <div><button id="btnAboutMe" class="btn my-5 animate__animated animate__bounceIn animate__delay-1s">About me</button></div>
+        <div><a href="/works.html" class="btn animate__animated animate__bounceIn animate__delay-1s">Previous works</a></div>
+      </section>
+      <section id="aboutMe">
+        <h1 class="split-letters">About me</h1>
+        <div class="d-flex text-white mt-3">
+          <div class="expand">
+            <div class="section">
+              <div class="d-block mb-2"><h3>My name is Reynier</h3></div>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt, dicta consectetur. Neque aspernatur accusamus reiciendis repudiandae eaque perspiciatis doloribus, ut, consectetur, ad aut itaque. Ad temporibus culpa error ab doloremque quasi eos cum, optio tenetur, et aperiam! Laudantium quam, incidunt alias nisi iusto eaque optio totam iure aliquam qui reiciendis?
+            </div>
+          </div>
+        </div>
         <button id="btnContactToMe" class="btn my-5 animate__animated animate__bounceIn animate__delay-1s">Contact to me</button>
       </section>
-      <section id="contactToMe">
+      <section id="contactToMe" class="wow animate__bounceIn">
         <h1 class="split-letters">Contact to me</h1>
         <div class="my-2">
           <a target="_blank" href="https://wa.me/5358851211" class="icon lg"><img src="/assets/images/whatsapp.png" alt=""></a>
@@ -58,10 +73,11 @@
           </div>
         </form>
       </section>
-      <section id="otherSection">
-        <h1 class="split-letters">Other section</h1>
-      </section>
     </div>
+
+    <!-- <script>
+      new WOW().init();
+    </script> -->
   </body>
   <!-- <script>
       if ("serviceWorker" in navigator) {
