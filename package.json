@@ -40,10 +40,5 @@
     "workbox-webpack-plugin": "^6.3.0"
   },
   "dependencies": {
-    "animate.css": "^4.1.1",
-    "gsap": "^3.8.0",
-    "lodash": "^4.17.21",
-    "three": "^0.133.1",
-    "webfontloader": "^1.6.28"
   }
 }

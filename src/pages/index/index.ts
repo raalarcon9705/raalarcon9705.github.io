@@ -1,63 +1,76 @@
-import { createImageParticles, createTextParticles } from '../../features/particles/index';
-import { splitLetters } from '../../utils/dom';
-import './index.scss';
-splitLetters();
+import { createParticlesEffectBackground } from '../../ui/particles';
 
-const api = `https://raalarcon-portfolio-bot.herokuapp.com/send-message`;
+const api = 'https://raalarcon-portfolio-bot.herokuapp.com/send-message';
+const contactForm = document.querySelector<HTMLFormElement>('#contact form');
+const navBarToggler = document.querySelector('.nav-toggler');
 
-const slide = (el: HTMLElement, direction: 'down' | 'up') => {
-  const position = el.style.getPropertyValue('transform');
-  console.log(position);
-};
-
-const initView = () => {
-  const btnContactToMe = document.getElementById('btnContactToMe');
-  const btnAboutMe = document.getElementById('btnAboutMe');
-  const btnSubmit = document.getElementById('btnSubmit');
-  const sectionContactToMe = document.getElementById('contactToMe');
-  const sectionAboutMe = document.getElementById('aboutMe');
-  const contactForm = document.getElementById('contactForm') as HTMLFormElement;
-  const slides = document.getElementById('slideSections');
-
-  btnContactToMe.addEventListener('click', () => {
-    sectionContactToMe.scrollIntoView({ behavior: 'smooth' });
-  });
-  btnAboutMe.addEventListener('click', () => {
-    sectionAboutMe.scrollIntoView({ behavior: 'smooth' });
-  });
-
-  contactForm.addEventListener('submit', (ev) => {
-    ev.preventDefault();
-    const data = Array.from(contactForm.elements).reduce((form: any, el) => {
-      const input = el as HTMLInputElement;
-      if (input.name) {
-        form[input.name] = input.value;
-        input.value = '';
-      }
-      return form;
-    }, {});
-    fetch(api, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: { 'Content-Type': 'application/json' },
-    }).then(() => {});
-  });
-
-  contactForm.addEventListener('input', () => {
-    const isValid = (Array.from(contactForm.elements) as HTMLInputElement[]).reduce(
-      (valid, input) => valid && input.validity.valid,
-      true
-    );
-    if (isValid) {
-      btnSubmit.removeAttribute('disabled');
-    } else {
-      btnSubmit.setAttribute('disabled', 'true');
+function handleSubmitContactForm(ev: Event) {
+  ev.preventDefault();
+  const data = Array.from(contactForm.elements).reduce((form: any, el) => {
+    const input = el as HTMLInputElement;
+    if (input.name) {
+      form[input.name] = input.value;
+      input.value = '';
     }
+    return form;
+  }, {});
+  fetch(api, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json' },
+  }).then();
+}
+
+function handleInputContactForm() {
+  const btnSubmit = contactForm.querySelector('button[type="submit"]');
+  const isValid = (Array.from(contactForm.elements) as HTMLInputElement[]).reduce(
+    (valid, input) => valid && input.validity.valid,
+    true
+  );
+  if (isValid) {
+    btnSubmit.removeAttribute('disabled');
+  } else {
+    btnSubmit.setAttribute('disabled', 'true');
+  }
+}
+
+function initPageSections() {
+  document.querySelectorAll<HTMLElement>('.section').forEach((section) => {
+    function handleAnimationEnd(ev: AnimationEvent) {
+      if (ev.animationName === 'openSection' || ev.animationName === 'closeSection') {
+        section.classList.add('ready-section');
+        section.removeEventListener('animationend', handleAnimationEnd);
+      }
+    }
+  
+    section.addEventListener('animationend', handleAnimationEnd);
   });
 
-  // window.addEventListener('scroll', () => slide(slides, 'down'))
-};
+  document.querySelectorAll('.nav-list.sections a').forEach(el => {
+    el.addEventListener('click', () => {
+      const sections = document.querySelector('.nav-list.sections');
+      sections.classList.remove('expand');
+    });
+  });
+}
 
-window.addEventListener('DOMContentLoaded', (event) => {
-  initView();
-});
+function initSkillBars() {
+  document.querySelectorAll<HTMLElement>('.skill-bar').forEach(el => {
+    el.style.setProperty('--value', el.dataset.value);
+  });
+}
+
+function handleTogglerClick(ev: Event) {
+  ev.preventDefault();
+  const sections = document.querySelector('.nav-list.sections');
+  sections.classList.toggle('expand');
+}
+
+createParticlesEffectBackground();
+initPageSections();
+initSkillBars();
+
+contactForm.addEventListener('input', handleInputContactForm);
+contactForm.addEventListener('submit', handleSubmitContactForm);
+navBarToggler.addEventListener('click', handleTogglerClick);
+
