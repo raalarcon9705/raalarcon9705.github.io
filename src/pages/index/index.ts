@@ -6,7 +6,7 @@ const navBarToggler = document.querySelector('.nav-toggler');
 
 function handleSubmitContactForm(ev: Event) {
   ev.preventDefault();
-  const data = Array.from(contactForm.elements).reduce((form: any, el) => {
+  const data = Array.from(contactForm.elements).reduce((form, el) => {
     const input = el as HTMLInputElement;
     if (input.name) {
       form[input.name] = input.value;
