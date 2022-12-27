@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-netlify';
 import sveltePreprocess from 'svelte-preprocess';
 import importAssets from 'svelte-preprocess-import-assets';
 
