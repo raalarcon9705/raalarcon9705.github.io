@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 :root {
-  --bg-image: url(./assets/reynier-rivero.jpg);
+  --bg-image: url(/assets/reynier-rivero.jpg);
 
   --primary-color-rgb: 81,165,196;
 
@@ -673,7 +673,7 @@ ul.timeline {
         margin-left: .5rem;
         width: 12px;
         height: 12px;
-        background-image: url(/link.svg);
+        background-image: url(/assets/link.svg);
         background-size: cover;
         filter: invert(1);
       }
