@@ -222,6 +222,10 @@ footer {
       margin-right: .5rem;
     }
   }
+
+  @media (max-width: 768px) {
+    transform: rotate(-90deg) translateY(140px);
+  }
 }
 
 .section {
