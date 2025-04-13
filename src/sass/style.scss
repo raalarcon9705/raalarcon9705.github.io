@@ -64,6 +64,10 @@ body {
   @media (min-width: 992px) {
     max-width: 960px
   }
+
+  @media (max-width: 888px) {
+    padding-right: 3rem;
+  }
 }
 
 .big {
@@ -703,3 +707,4 @@ ul.lang-list {
     background-color: var(--primary-color);
   }
 }
+

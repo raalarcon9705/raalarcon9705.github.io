@@ -11,11 +11,17 @@
 
 	// @ts-ignore
 	function handleSubmit(ev) {
-		const api = 'https://portfolio-server-hqce.onrender.com/send-message';
+		const api = 'https://sleanconsulting.com/api/contact-form';
 		ev.preventDefault();
 		fetch(api, {
 			method: 'POST',
-			body: JSON.stringify(data),
+			body: JSON.stringify({
+				name: data.name,
+				email: data.email,
+				phone: data.subject,
+				subject: 'New project inquiry ' + (data.name || 'Anonymous'),
+				message: data.content
+			}),
 			headers: { 'Content-Type': 'application/json' }
 		}).then(
 			() =>
