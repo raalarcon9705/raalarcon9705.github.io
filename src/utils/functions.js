@@ -44,13 +44,13 @@ export function createParticlesEffectBackground() {
 	const mouse = {
 		x: null,
 		y: null,
-		radius: (canvas.height / 80) * (canvas.width / 80)
+		radius: (canvas.height / 160) * (canvas.width / 160)
 	};
 
 	function init() {
 		particlesArray = [];
 
-		const length = (canvas.height * canvas.width) / 10000;
+		const length = (canvas.height * canvas.width) / 15000;
 
 		for (let i = 0; i < length; i++) {
 			const size = Math.random() * 4 + 1;

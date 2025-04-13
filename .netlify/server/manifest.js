@@ -1,21 +1,27 @@
-export const manifest = {
+export const manifest = (() => {
+function __memo(fn) {
+	let value;
+	return () => value ??= (value = fn());
+}
+
+return {
 	appDir: "_app",
 	appPath: "_app",
-	assets: new Set([".DS_Store","assets/Reynier's Resume.pdf","assets/reynier-rivero.jpg","favicon.png"]),
-	mimeTypes: {".pdf":"application/pdf",".jpg":"image/jpeg",".png":"image/png"},
+	assets: new Set(["assets/Reynier's Resume.pdf","assets/link.svg","assets/reynier-memoji.png","assets/reynier-rivero.jpg","favicon.ico"]),
+	mimeTypes: {".pdf":"application/pdf",".svg":"image/svg+xml",".png":"image/png",".jpg":"image/jpeg"},
 	_: {
-		entry: {"file":"_app/immutable/start-81e2de10.js","imports":["_app/immutable/start-81e2de10.js","_app/immutable/chunks/index-1f769502.js","_app/immutable/chunks/singletons-27551856.js"],"stylesheets":[],"fonts":[]},
+		client: {"start":"_app/immutable/entry/start.e4f4b837.js","app":"_app/immutable/entry/app.674ae10a.js","imports":["_app/immutable/entry/start.e4f4b837.js","_app/immutable/chunks/index.3c0bc2f3.js","_app/immutable/chunks/singletons.bb952223.js","_app/immutable/entry/app.674ae10a.js","_app/immutable/chunks/index.3c0bc2f3.js"],"stylesheets":[],"fonts":[]},
 		nodes: [
-			() => import('./nodes/0.js'),
-			() => import('./nodes/1.js'),
-			() => import('./nodes/2.js')
+			__memo(() => import('./nodes/0.js')),
+			__memo(() => import('./nodes/1.js')),
+			__memo(() => import('./nodes/2.js'))
 		],
 		routes: [
 			{
 				id: "/",
 				pattern: /^\/$/,
 				params: [],
-				page: { layouts: [0], errors: [1], leaf: 2 },
+				page: { layouts: [0,], errors: [1,], leaf: 2 },
 				endpoint: null
 			}
 		],
@@ -24,4 +30,5 @@ export const manifest = {
 			return {  };
 		}
 	}
-};
+}
+})();

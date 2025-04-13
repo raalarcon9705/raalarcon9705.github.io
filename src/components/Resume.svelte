@@ -1,8 +1,9 @@
 <script>
-	import { education, experience, otherSkills, projects, skills } from '../data';
+	import { education, experience, otherSkills, projects, skills, languages } from '../data';
 	import Skill from './Skill.svelte';
 	import Study from './Study.svelte';
 	import Work from './Work.svelte';
+	import Language from './Language.svelte';
 </script>
 
 <section class="section" id="resume">
@@ -19,6 +20,15 @@
 						{#each education as study}
 							<li class="timeline-item">
 								<Study data={study} />
+							</li>
+						{/each}
+					</ul>
+
+					<h3 class="box-text">Languages</h3>
+					<ul class="link-list">
+						{#each languages as lang}
+							<li>
+								<Language lang={lang} />
 							</li>
 						{/each}
 					</ul>
